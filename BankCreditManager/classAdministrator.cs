@@ -3,7 +3,10 @@ namespace BankCreditManager
 {
   public class Administrator
     {
-      public string login { get; set; } // поменять название свойства
-      public string parol { get; set; } // поменять название свойства
+      public int Id {get; set;}
+
+      public string Login = "909929763"; 
+
+      public string Password = "0101"; 
     }
 }

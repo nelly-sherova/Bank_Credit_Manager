@@ -6,39 +6,48 @@ namespace BankCreditManager
     {
         static void Main(string[] args)
         {
-            const string key = "0001"; // изменить название переменной
-            const string login = "909929763"; // возможно потом изменим
+            Administrator administrator = new Administrator();
+            PersonalAccount personalAccount = new PersonalAccount();
+
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.WriteLine("~ ~ ~ Bank Credit Manager ~ ~ ~");
             Console.ResetColor();
+
             Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine("Выберите язык для продолжения!");
+            Console.WriteLine("Select the language to continue!");
             Console.ResetColor();
-            Console.WriteLine("Enter [rus] for Russian Language\n" +
+
+            Console.WriteLine("Введите [rus] для выбора русского языка\n" +
                 "Enter [eng] for English Language");
             string languageOfProgram = Console.ReadLine();
+
             if (TrimCommand(languageOfProgram) == "rus") 
             {
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine("Вы выбрали русский язык!");
                 Console.ResetColor();
+
                  Console.ForegroundColor = ConsoleColor.DarkMagenta;
                 Console.WriteLine("Выберите пользователя: ");
                 Console.ResetColor();
+
                 Console.WriteLine("Если вы администратор, ввидите: [administrator]\n" +
                     "Если вы клиент, введите: [client] ");
-                string choosePolzovatel = Console.ReadLine(); // нужно потом переименовать эту переменную
-                if(TrimCommand(choosePolzovatel) == "administrator")
+                string chooseUser = Console.ReadLine(); // нужно потом переименовать эту переменную
+                
+                if(TrimCommand(chooseUser) == "administrator")
                 {
                     Console.ForegroundColor = ConsoleColor.DarkBlue;
                     Console.Write("Введите логин: ");
                     Console.ResetColor();
                     string administratorLogin = Console.ReadLine();
+
                     Console.ForegroundColor = ConsoleColor.DarkBlue;
                     Console.Write("Введите пароль: ");
                     Console.ResetColor();
-                    string parol = Console.ReadLine(); // изменить название переменной
-                    if (parol == key && administratorLogin == login)
+                    string password = Console.ReadLine(); 
+
+                    if (password == administrator.Password && administratorLogin == administrator.Login)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkMagenta;
                         Console.WriteLine("Вы успешно вошли в систему!");
@@ -46,26 +55,24 @@ namespace BankCreditManager
                         Console.WriteLine("Для регистрации клиента нажмите [1]\n" +
                             "Для просмотра истории заявок нажмите [2]\n" +
                             "Для выхода из программы нажмите [0]");
-                        char.TryParse(Console.ReadLine(), out char chooseAdmin);
-                        switch(chooseAdmin)
+                        string chooseAdmin = Console.ReadLine();
+                        
+                        if (TrimCommand(chooseAdmin) == "1")
                         {
-                            case '1':
-                            {
-                                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                                Console.WriteLine("Добро пожаловать в поле регистрации клиента!");
-                                Console.ResetColor();
-                            }break;
+                            personalAccount.InsertIntoPersonalAccountRus();
                         }
                     }
-                     else
+                    
+                    else
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Неправильный пароль или логин, вход будет осуществляться как Клиент");
-                        choosePolzovatel = "client";
+                        chooseUser = "client";
                         Console.ResetColor();
                     }
                 }
-                if (TrimCommand(choosePolzovatel) == "client")
+                
+                if (TrimCommand(chooseUser) == "client")
                 {
                     Console.ForegroundColor = ConsoleColor.DarkBlue;
                     Console.WriteLine("Здравствуйте, дорогой клиент!");
@@ -73,14 +80,83 @@ namespace BankCreditManager
                      Console.WriteLine("Для регистрации нажмите [1]\n" +
                         "Для входа нажмите [2]\n" +
                         "Для выхода из программы нажмите [0]");
-                    PersonalAccount p = new PersonalAccount();
-                    p.InsertIntoPersonalAccountRus();
+                    string chooseCommandClient = Console.ReadLine();
+
+                    if (TrimCommand(chooseCommandClient) == "1")
+                    {
+                        personalAccount.InsertIntoPersonalAccountRus();
+
+                    }
                     
                 }
             }
             else if (TrimCommand(languageOfProgram) == "eng")
             {
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine("You have chosen English!");
+                Console.ResetColor();
 
+                Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                Console.WriteLine("Select a user: ");
+                Console.ResetColor();
+
+                Console.WriteLine("If You are an Administrator, enter: [administrator]\n" +
+                    "If you are a Customer enter: [client] ");
+                string chooseUser = Console.ReadLine(); // нужно потом переименовать эту переменную
+
+                if (TrimCommand(chooseUser) == "administrator")
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    Console.Write("Enter the login: ");
+                    Console.ResetColor();
+                    string administratorLogin = Console.ReadLine();
+
+                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    Console.Write("Enter the password: ");
+                    Console.ResetColor();
+                    string parol = Console.ReadLine(); // изменить название переменной
+
+                    if (parol == administrator.Password && administratorLogin == administrator.Login)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                        Console.WriteLine("You have successfully logged in!");
+                        Console.ResetColor();
+                        Console.WriteLine("To regidtration the client enter [1]\n" + // есть
+                            "To view the history of applications, enter [2]\n" + //нету
+                            "Any other team output from the program ");// нету
+                        string chooseAdmin = Console.ReadLine();
+
+                        if (TrimCommand(chooseAdmin) == "1")
+                        {
+                            personalAccount.InsertIntoPersonalAccountRus();
+                        }
+                    }
+
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Incorrect password or login! The input will be made as a client");
+                        chooseUser = "client";
+                        Console.ResetColor();
+                    }
+                }
+                if (TrimCommand(chooseUser) == "client")
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    Console.WriteLine("Hello dear customer!");
+                    Console.ResetColor();
+                    Console.WriteLine("For registration, enter [1]\n" + // eсть
+                        "To enter the acoount enter [2]\n" +
+                        "Any other team output from the program");
+                    string chooseCommandClient = Console.ReadLine();
+
+                    if (TrimCommand(chooseCommandClient) == "1")
+                    {
+                        personalAccount.InsertIntoPersonalAccountRus();
+
+                    }
+
+                }
             }
 
         }
