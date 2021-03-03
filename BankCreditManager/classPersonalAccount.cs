@@ -12,6 +12,46 @@ namespace BankCreditManager
     OveralMark overalMark = new OveralMark();
 
     /// <summary>
+    /// Метод для проверки номера телефона, чтобы там не было букв
+    /// </summary>
+    /// <param name="Номер телефона"></param>
+    /// <returns></returns>
+    public bool PhoneNumberVertification(string text)
+    {
+      bool answer = false;
+      for (int i = 0; i < text.Length; i++)
+      {
+        if (Convert.ToString(text[i]) == "1")
+          answer = true;
+        else if (Convert.ToString(text[i]) == "2")
+          answer = true;
+        else if (Convert.ToString(text[i]) == "3")
+          answer = true;
+        else if (Convert.ToString(text[i]) == "4")
+          answer = true;
+        else if (Convert.ToString(text[i]) == "5")
+          answer = true;
+        else if (Convert.ToString(text[i]) == "6")
+          answer = true;
+        else if (Convert.ToString(text[i]) == "7")
+          answer = true;
+        else if (Convert.ToString(text[i]) == "8")
+          answer = true;
+        else if (Convert.ToString(text[i]) == "9")
+          answer = true;
+        else if (Convert.ToString(text[i]) == "0")
+          answer = true;
+        else 
+        {
+          answer = false;
+        }
+        if (answer == false)
+          break;
+      }
+        return answer;
+    }
+
+    /// <summary>
     /// Метод который удаляет пробелы и игнорирует большие и маленькие буквы
     /// </summary>
     /// <param string="text"></param>
@@ -39,11 +79,30 @@ namespace BankCreditManager
       Console.Write("Введите фамилию [*]: "); Console.ResetColor(); passportData.MiddleName = Console.ReadLine();
 
       Console.ForegroundColor = ConsoleColor.DarkBlue;
-      Console.Write("Введите отчество [*]: "); Console.ResetColor(); passportData.LastName = Console.ReadLine();
+      Console.Write("Введите отчество: "); Console.ResetColor(); passportData.LastName = Console.ReadLine();
 
       Console.ForegroundColor = ConsoleColor.DarkBlue;
       Console.Write("Введите логин (номер телефона): "); Console.ResetColor(); Login = Console.ReadLine(); //посмотреть чтобы сюда не попали буквы и символы
 
+      bool trueNumber = true; // для правильности пароля
+      
+      while (trueNumber)
+      {
+        if (PhoneNumberVertification(Login) == false)
+        {
+          Console.ForegroundColor = ConsoleColor.Red;
+          Console.WriteLine("Введите правильный номер телефона!");
+          Console.ForegroundColor = ConsoleColor.DarkBlue;
+          Console.Write("Повторите попытку: ");
+          Login = Console.ReadLine();
+          if (PhoneNumberVertification(Login) == true)
+            trueNumber = false;
+        }
+        if (PhoneNumberVertification(Login) == true)
+        {
+          trueNumber = false;
+        }
+      }
       bool truePassword = true; // для правильности пароля
       bool continueInsert = false; // для продолжения программы есди пароль правильный или неправильный
       string testPassword1, testPassword2; // для проверки правильности пароля
@@ -106,8 +165,12 @@ namespace BankCreditManager
           overalMark.Mark++;
 
         Console.ForegroundColor = ConsoleColor.DarkBlue;
-        Console.Write("Введите дату рождения: "); Console.ResetColor();
-        passportData.DateOfBirth = Console.ReadLine(); // преобразовать ее так чтобы возраст узнали и еще иф написать
+        Console.WriteLine("Введите дату рождения: "); Console.ResetColor();
+        Console.WriteLine("Формат: [день.месяц.год]");
+        passportData.DateOfBirth = Convert.ToDateTime(Console.ReadLine()); 
+        questionary.Age = Convert.ToInt32(DateTime.Now.Year - passportData.DateOfBirth.Year);
+        if (DateTime.Now.Month < passportData.DateOfBirth.Month)
+          questionary.Age--;
 
         Console.ForegroundColor = ConsoleColor.DarkBlue;
         Console.Write("Введите адрес: "); Console.ResetColor();
@@ -129,30 +192,49 @@ namespace BankCreditManager
           "Введите [4], если вдовец (вдова)");
         int.TryParse(Console.ReadLine(), out int maritalStatusInt);
 
+       bool trueMaritalStatusInt = true;
+      while (trueMaritalStatusInt)
+      {
         if (maritalStatusInt == 1)
         {
           questionary.MaritalStatus = "Холост";
           overalMark.Mark++;
+          trueMaritalStatusInt = false;
         }
 
         else if (maritalStatusInt == 2)
         {
           questionary.MaritalStatus = "Семьянин";
           overalMark.Mark += 2;
+          trueMaritalStatusInt = false;
         }
 
         else if (maritalStatusInt == 3)
         {
           questionary.MaritalStatus = "В разводе";
           overalMark.Mark++;
+          trueMaritalStatusInt = false;
         }
 
         else if (maritalStatusInt == 4)
         {
           questionary.MaritalStatus = "Вдовец, вдова";
           overalMark.Mark += 2;
+          trueMaritalStatusInt = false;
         }
-
+        else
+        {
+          Console.ForegroundColor = ConsoleColor.Red;
+          Console.WriteLine("Неправильная команда!\nПовторите попытку:");
+          Console.ForegroundColor = ConsoleColor.DarkBlue;
+          Console.WriteLine("Укажите семейное положение: "); Console.ResetColor();
+          Console.WriteLine("Введите [1], если холост (не замужем)\n" +
+            "Введите [2], если семьянин\n" +
+            "Введите [3], если в разводе\n" +
+            "Введите [4], если вдовец (вдова)");
+          int.TryParse(Console.ReadLine(), out maritalStatusInt);
+        }
+      }
         Console.ForegroundColor = ConsoleColor.DarkBlue;
         Console.Write("Введите сумму кредита: "); Console.ResetColor();
         questionary.CreditAmount = Convert.ToDecimal(Console.ReadLine());

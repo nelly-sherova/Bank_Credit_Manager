@@ -5,6 +5,8 @@ namespace BankCreditManager
   public class Questionary // анкета 
   {
     public int Id {get; set;}
+    
+    public int Age {get; set;}
 
     public string MaritalStatus { get; set; } // семейное положение
 

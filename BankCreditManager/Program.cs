@@ -54,7 +54,7 @@ namespace BankCreditManager
                         Console.ResetColor();
                         Console.WriteLine("Для регистрации клиента нажмите [1]\n" +
                             "Для просмотра истории заявок нажмите [2]\n" +
-                            "Для выхода из программы нажмите [0]");
+                            "Любая другая команда - выход из программы");
                         string chooseAdmin = Console.ReadLine();
                         
                         if (TrimCommand(chooseAdmin) == "1")
@@ -102,7 +102,7 @@ namespace BankCreditManager
 
                 Console.WriteLine("If You are an Administrator, enter: [administrator]\n" +
                     "If you are a Customer enter: [client] ");
-                string chooseUser = Console.ReadLine(); // нужно потом переименовать эту переменную
+                string chooseUser = Console.ReadLine(); 
 
                 if (TrimCommand(chooseUser) == "administrator")
                 {
@@ -114,9 +114,9 @@ namespace BankCreditManager
                     Console.ForegroundColor = ConsoleColor.DarkBlue;
                     Console.Write("Enter the password: ");
                     Console.ResetColor();
-                    string parol = Console.ReadLine(); // изменить название переменной
+                    string password = Console.ReadLine(); // изменить название переменной
 
-                    if (parol == administrator.Password && administratorLogin == administrator.Login)
+                    if (password == administrator.Password && administratorLogin == administrator.Login)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkMagenta;
                         Console.WriteLine("You have successfully logged in!");
