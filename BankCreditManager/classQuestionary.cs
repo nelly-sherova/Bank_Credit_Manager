@@ -21,5 +21,7 @@ namespace BankCreditManager
     public int PurposeOfCredit { get; set; } // цель кредита 
     
     public int CreditTerm { get; set; } // срок кредита
+    
+     public DateTime DateOfApplication { get; set; } // дата заявки
   }
 }

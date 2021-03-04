@@ -21,6 +21,40 @@ namespace BankCreditManager
                 "Enter [eng] for English Language");
             string languageOfProgram = Console.ReadLine();
 
+            bool trueLanguageOfProgram = true;
+            while(trueLanguageOfProgram)
+            {
+                for(int i = 1; i <= 3; i++)
+                {
+                    if (TrimCommand(languageOfProgram) != "rus" && TrimCommand(languageOfProgram) != "eng")
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("Введена неправильная команда!");
+                        Console.ForegroundColor = ConsoleColor.DarkBlue;
+                        Console.WriteLine("Повторите попытку!");
+                        Console.ResetColor();
+                         Console.WriteLine("Введите [rus] для выбора русского языка\n" +
+                            "Enter [eng] for English Language");
+                        languageOfProgram = Console.ReadLine();
+                        if (TrimCommand(languageOfProgram) == "rus" || TrimCommand(languageOfProgram) == "eng")
+                        {
+                           trueLanguageOfProgram = false;
+                        }
+                        if (i == 3)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Попытка введения команды закончилась\n" +
+                                "Будет осуществлен выход из программы!");
+                            Console.ResetColor();
+                            trueLanguageOfProgram = false;
+                        }
+                    }
+                    else
+                        trueLanguageOfProgram = false;
+                }
+            }
+
+
             if (TrimCommand(languageOfProgram) == "rus") 
             {
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -33,7 +67,43 @@ namespace BankCreditManager
 
                 Console.WriteLine("Если вы администратор, ввидите: [administrator]\n" +
                     "Если вы клиент, введите: [client] ");
-                string chooseUser = Console.ReadLine(); // нужно потом переименовать эту переменную
+                string chooseUser = Console.ReadLine(); 
+                bool trueChooseUser = true; // для проверки введенной команды
+                int countOfCheckChooseUser = 3; // попытки для введения 
+                while(trueChooseUser)
+                {
+                    for (int i = 0; i < countOfCheckChooseUser; i++)
+                    {
+                        if (TrimCommand(chooseUser) != "administrator" && TrimCommand(chooseUser) != "client")
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("Введена неправильная команда!");
+                            Console.ForegroundColor = ConsoleColor.DarkBlue;
+                            Console.WriteLine("Повторите попытку!");
+                            Console.ResetColor();
+                            Console.WriteLine("Если вы администратор, введите: [administrator]\n" +
+                                "Если вы клиент, введите: [client] ");
+                            
+                            chooseUser = Console.ReadLine();
+                            if (TrimCommand(chooseUser) == "administrator" || TrimCommand(chooseUser) == "client")
+                            {
+                                trueChooseUser = false;
+                            }
+                            if (i == countOfCheckChooseUser - 1)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.WriteLine("Попытка введения команды закончилась\n" +
+                                    "Будет осуществлен выход из программы!");
+                                Console.ResetColor();
+                                trueChooseUser = false;
+                            }
+                                
+                        }
+                        else
+                            trueChooseUser = false;
+                    }
+                }
+
                 
                 if(TrimCommand(chooseUser) == "administrator")
                 {
@@ -59,7 +129,7 @@ namespace BankCreditManager
                         
                         if (TrimCommand(chooseAdmin) == "1")
                         {
-                            personalAccount.InsertIntoPersonalAccountRus();
+                            personalAccount.InformationRus();
                         }
                     }
                     
@@ -84,7 +154,8 @@ namespace BankCreditManager
 
                     if (TrimCommand(chooseCommandClient) == "1")
                     {
-                        personalAccount.InsertIntoPersonalAccountRus();
+                        personalAccount.InformationRus();
+                        personalAccount.CreditRepaymentSchedule();
 
                     }
                     
@@ -128,7 +199,7 @@ namespace BankCreditManager
 
                         if (TrimCommand(chooseAdmin) == "1")
                         {
-                            personalAccount.InsertIntoPersonalAccountRus();
+                            personalAccount.InformationRus();
                         }
                     }
 
@@ -152,7 +223,7 @@ namespace BankCreditManager
 
                     if (TrimCommand(chooseCommandClient) == "1")
                     {
-                        personalAccount.InsertIntoPersonalAccountRus();
+                        personalAccount.InformationRus();
 
                     }
 
